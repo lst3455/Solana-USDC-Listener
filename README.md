@@ -31,7 +31,7 @@ npm install --save-dev typescript ts-node @types/node @types/express
 
 ---
 
-## 3. Environment Variables
+## 2. Environment Variables
 
 Create a **`.env`** file:
 
@@ -48,7 +48,7 @@ PORT=3000
 
 ---
 
-## 4. Project Structure
+## 3. Project Structure
 
 ```
 solana-usdc-listener/
@@ -61,9 +61,7 @@ solana-usdc-listener/
 
 ---
 
-## 5. Running the Server
-
-### 5.1 Dev Mode
+## 4. Running the Server
 
 ```bash
 npx ts-node src/index.ts
@@ -73,7 +71,7 @@ npx ts-node src/index.ts
 
 ---
 
-## 6. Expose Locally via ngrok
+## 5. Expose Locally via ngrok
 
 1. Run ngrok on port 3000:
 
