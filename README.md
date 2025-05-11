@@ -42,7 +42,7 @@ SOLANA_RPC_URL=https://api.mainnet-beta.solana.com
 PORT=3000
 ```
 
-* **SOLANA\_ADDR**: Your wallet address
+* **SOLANA\_ADDR**: Wallet address need to monitor
 * **USDC\_MINT**: Official USDC SPL token mint
 * **SOLANA\_RPC\_URL**: Optional; defaults to mainnet-beta RPC
 
