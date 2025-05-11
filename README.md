@@ -31,34 +31,6 @@ npm install --save-dev typescript ts-node @types/node @types/express
 
 ---
 
-## 2. Configure TypeScript
-
-Create or update **`tsconfig.json`**:
-
-```json
-{
-  "compilerOptions": {
-    "target": "ES2020",
-    "module": "CommonJS",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "strict": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
-}
-```
-
-* **`esModuleInterop`** enables default imports (e.g. `import express from 'express'`).
-* **`resolveJsonModule`** allows importing JSON files directly.
-
----
-
 ## 3. Environment Variables
 
 Create a **`.env`** file:
