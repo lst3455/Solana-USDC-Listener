@@ -6,6 +6,8 @@ import { Connection, clusterApiUrl, ParsedTransactionWithMeta, LAMPORTS_PER_SOL 
 
 // --- Type Definitions ---
 interface TransactionResult {
+  monitoredAddress: string;
+  monitoredMint: string;
   signature: string;
   preAmount: number;
   postAmount: number;
@@ -14,6 +16,8 @@ interface TransactionResult {
 }
 
 interface StoredTransactionData {
+  monitored_address: string;
+  monitored_mint: string;
   signature: string;
   pre_amount: number;
   post_amount: number;
@@ -81,6 +85,8 @@ async function fetchAndProcessSolanaTransaction(signature: string): Promise<Tran
   }
   const uiAmount = postAmount - preAmount;
   return {
+    monitoredAddress: SOLANA_ADDR,
+    monitoredMint: USDC_MINT,
     signature,
     preAmount,
     postAmount,
@@ -93,6 +99,8 @@ async function fetchAndProcessSolanaTransaction(signature: string): Promise<Tran
 async function storeTransactionInDb(transaction: TransactionResult): Promise<{ error: any }> {
   if (!supabaseClient) return { error: { message: "Supabase client not initialized." }};
   const dataToStore: StoredTransactionData = {
+    monitored_address: transaction.monitoredAddress,
+    monitored_mint: transaction.monitoredMint,
     signature: transaction.signature,
     pre_amount: transaction.preAmount,
     post_amount: transaction.postAmount,
@@ -101,17 +109,19 @@ async function storeTransactionInDb(transaction: TransactionResult): Promise<{ e
   };
   const { error } = await supabaseClient
     .from('solana_transactions')
-    .upsert(dataToStore, { onConflict: 'signature' });
+    .upsert(dataToStore, { onConflict: 'signature,monitored_address,monitored_mint' });
   return { error };
 }
 
-async function fetchTransactionFromDb(signature: string): Promise<{ data: StoredTransactionData | null, error: any }> {
+async function fetchTransactionFromDb(signature: string, addressToMonitor: string, mintToMonitor: string): Promise<{ data: StoredTransactionData | null, error: any }> {
   if (!supabaseClient) return { data: null, error: { message: "Supabase client not initialized." }};
   const { data, error } = await supabaseClient
-    .from('solana_transactions')
-    .select('signature, ui_amount, transaction_timestamp, pre_amount, post_amount')
-    .eq('signature', signature)
-    .single();
+        .from('solana_transactions')
+        .select('signature, monitored_address, monitored_mint, ui_amount, transaction_timestamp, pre_amount, post_amount')
+        .eq('signature', signature)
+        .eq('monitored_address', addressToMonitor)
+        .eq('monitored_mint', mintToMonitor)
+        .single();
   if (error && error.code === 'PGRST116') {
     return { data: null, error: null }; 
   }
