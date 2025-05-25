@@ -72,13 +72,6 @@ This replaces a traditional server setup with a serverless Supabase Edge Functio
     ```
     (Find `YOUR_PROJECT_ID` in your Supabase project's dashboard URL.)
 
-4.  **Create the Edge Function**:
-    We'll name the function `solana-transaction-handler`.
-    ```bash
-    supabase functions new solana-transaction-handler
-    ```
-    This creates `supabase/functions/solana-transaction-handler/index.ts`. Replace the content of this `index.ts` with the provided Edge Function code.
-
 
 ## 3. Environment Variables
 
@@ -98,12 +91,29 @@ Edge Functions use secrets for sensitive data.
     SOLANA_ADDR="YOUR_SOLANA_WALLET_ADDRESS_TO_MONITOR"
     ```
 
-## 4. Running Locally
+## 4. Project Structure
+
+```bash
+your-project-name/
+├── supabase/
+│   ├── .env.local                  # Local environment variables (GITIGNORED!)
+│   ├── config.toml                 # Supabase project configuration
+│   ├── functions/
+│   │   └── solana-transaction-handler/
+│   │       ├── index.ts            # The Edge Function code
+│   │       └── (your_test_file.integration.test.ts) # Optional test file
+│   ├── migrations/                 # Database migrations (if you manage schema via CLI)
+│   └── (other supabase files like hooks, seed.sql etc.)
+├── .gitignore
+└── README.md                       # This file
+```
+
+## 5. Running Locally
 
 1.  **Serve the Function**:
     From your project root directory:
     ```bash
-    supabase functions serve --env-file ./supabase/.env.local --no-verify-jwt
+    npx supabase functions serve --env-file ./supabase/.env.local --no-verify-jwt
     ```
     *   `--env-file ./supabase/.env.local`: Loads your local environment variables.
     *   `--no-verify-jwt`: Disables JWT authentication for easier local testing, especially for webhooks.
@@ -136,4 +146,3 @@ You can run integration tests using Deno. See the example `fetchAndProcessSolana
     deno test --allow-env --allow-net --env=supabase/.env.local supabase/functions/solana-transaction-handler/fetchAndProcessSolanaTransaction.test.ts
     ```
 
----
