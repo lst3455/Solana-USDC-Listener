@@ -146,3 +146,17 @@ You can run integration tests using Deno. See the example `fetchAndProcessSolana
     deno test --allow-env --allow-net --env=supabase/.env.local supabase/functions/solana-transaction-handler/fetchAndProcessSolanaTransaction.test.ts
     ```
 
+## 6. Expose Locally via ngrok
+
+1. Run ngrok on port 3000:
+
+   ```bash
+   ngrok http 54321
+   ```
+2. Copy the HTTPS URL and set it as your Alchemy webhook callback:
+
+   ```
+   <ngrok forwarding URL>/functions/v1/solana-transaction-handler/webhook
+   ```
+
+---
