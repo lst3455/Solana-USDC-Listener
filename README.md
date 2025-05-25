@@ -136,7 +136,7 @@ your-project-name/
         ```
 
 
-## 5. Integration Testing (Optional)
+## 6. Integration Testing (Optional)
 
 You can run integration tests using Deno. See the example `fetchAndProcessSolanaTransaction.test.ts`.
 
@@ -146,7 +146,7 @@ You can run integration tests using Deno. See the example `fetchAndProcessSolana
     deno test --allow-env --allow-net --env=supabase/.env.local supabase/functions/solana-transaction-handler/fetchAndProcessSolanaTransaction.test.ts
     ```
 
-## 6. Expose Locally via ngrok
+## 7. Expose Locally via ngrok
 
 1. Run ngrok on port 3000:
 
@@ -159,4 +159,3 @@ You can run integration tests using Deno. See the example `fetchAndProcessSolana
    <ngrok forwarding URL>/functions/v1/solana-transaction-handler/webhook
    ```
 
----
